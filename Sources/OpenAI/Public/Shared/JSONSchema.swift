@@ -119,6 +119,8 @@ public class JSONSchema: Codable, Equatable {
   public let `enum`: [String]?
   public var ref: String?
   public var defs: [String: JSONSchema]?
+  public var anyOf: [JSONSchema]?
+  public var strict: Bool?
 
   public init(
     type: JSONSchemaType? = nil,
@@ -129,7 +131,9 @@ public class JSONSchema: Codable, Equatable {
     additionalProperties: Bool = false,
     enum: [String]? = nil,
     ref: String? = nil,
-    defs: [String: JSONSchema]? = nil
+    defs: [String: JSONSchema]? = nil,
+    anyOf: [JSONSchema]? = nil,
+    strict: Bool? = nil
   ) {
     self.type = type
     self.description = description
@@ -140,11 +144,8 @@ public class JSONSchema: Codable, Equatable {
     self.enum = `enum`
     self.ref = ref
     self.defs = defs
-  }
-
-  public static func == (lhs: JSONSchema, rhs: JSONSchema) -> Bool {
-    lhs.type == rhs.type && lhs.description == rhs.description && lhs.properties == rhs.properties && lhs.items == rhs.items && lhs.required == rhs.required
-      && lhs.additionalProperties == rhs.additionalProperties && lhs.enum == rhs.enum && lhs.ref == rhs.ref && lhs.defs == rhs.defs
+    self.anyOf = anyOf
+    self.strict = strict
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -163,6 +164,8 @@ public class JSONSchema: Codable, Equatable {
     try container.encodeIfPresent(additionalProperties, forKey: .additionalProperties)
     try container.encodeIfPresent(`enum`, forKey: .enum)
     try container.encodeIfPresent(defs, forKey: .defs)
+    try container.encodeIfPresent(anyOf, forKey: .anyOf)
+    try container.encodeIfPresent(strict, forKey: .strict)
   }
 
   public required init(from decoder: Decoder) throws {
@@ -178,6 +181,8 @@ public class JSONSchema: Codable, Equatable {
       additionalProperties = false
       `enum` = nil
       defs = nil
+      anyOf = nil
+      strict = nil
       return
     }
 
@@ -189,11 +194,18 @@ public class JSONSchema: Codable, Equatable {
     additionalProperties = try container.decodeIfPresent(Bool.self, forKey: .additionalProperties)
     `enum` = try container.decodeIfPresent([String].self, forKey: .enum)
     defs = try container.decodeIfPresent([String: JSONSchema].self, forKey: .defs)
+    anyOf = try container.decodeIfPresent([JSONSchema].self, forKey: .anyOf)
+    strict = try container.decodeIfPresent(Bool.self, forKey: .strict)
     ref = nil
   }
 
+  public static func == (lhs: JSONSchema, rhs: JSONSchema) -> Bool {
+    lhs.type == rhs.type && lhs.description == rhs.description && lhs.properties == rhs.properties && lhs.items == rhs.items && lhs.required == rhs.required
+      && lhs.additionalProperties == rhs.additionalProperties && lhs.enum == rhs.enum && lhs.ref == rhs.ref && lhs.defs == rhs.defs && lhs.anyOf == rhs.anyOf && lhs.strict == rhs.strict
+  }
+
   private enum CodingKeys: String, CodingKey {
-    case type, description, properties, items, required, additionalProperties, `enum`
+    case type, description, properties, items, required, additionalProperties, `enum`, strict, anyOf
     case ref = "$ref"
     case defs = "$defs"
   }
