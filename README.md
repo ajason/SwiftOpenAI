@@ -7,6 +7,7 @@
 [![swiftui-version](https://img.shields.io/badge/swiftui-brightgreen)](https://developer.apple.com/documentation/swiftui)
 [![xcode-version](https://img.shields.io/badge/xcode-15%20-brightgreen)](https://developer.apple.com/xcode/)
 [![swift-package-manager](https://img.shields.io/badge/package%20manager-compatible-brightgreen.svg?logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNjJweCIgaGVpZ2h0PSI0OXB4IiB2aWV3Qm94PSIwIDAgNjIgNDkiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDYzLjEgKDkyNDUyKSAtIGh0dHBzOi8vc2tldGNoLmNvbSAtLT4KICAgIDx0aXRsZT5Hcm91cDwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJHcm91cCIgZmlsbC1ydWxlPSJub256ZXJvIj4KICAgICAgICAgICAgPHBvbHlnb24gaWQ9IlBhdGgiIGZpbGw9IiNEQkI1NTEiIHBvaW50cz0iNTEuMzEwMzQ0OCAwIDEwLjY4OTY1NTIgMCAwIDEzLjUxNzI0MTQgMCA0OSA2MiA0OSA2MiAxMy41MTcyNDE0Ij48L3BvbHlnb24+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJQYXRoIiBmaWxsPSIjRjdFM0FGIiBwb2ludHM9IjI3IDI1IDMxIDI1IDM1IDI1IDM3IDI1IDM3IDE0IDI1IDE0IDI1IDI1Ij48L3BvbHlnb24+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJQYXRoIiBmaWxsPSIjRUZDNzVFIiBwb2ludHM9IjEwLjY4OTY1NTIgMCAwIDE0IDYyIDE0IDUxLjMxMDM0NDggMCI+PC9wb2x5Z29uPgogICAgICAgICAgICA8cG9seWdvbiBpZD0iUmVjdGFuZ2xlIiBmaWxsPSIjRjdFM0FGIiBwb2ludHM9IjI3IDAgMzUgMCAzNyAxNCAyNSAxNCI+PC9wb2x5Z29uPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+)](https://github.com/apple/swift-package-manager)
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-048754?logo=buymeacoffee)](https://buymeacoffee.com/jamesrochabrun)
 
 An open-source Swift package designed for effortless interaction with OpenAI's public API. 
 
@@ -56,7 +57,6 @@ An open-source Swift package designed for effortless interaction with OpenAI's p
    - [Vector store File](#vector-store-file)
    - [Vector store File Batch](#vector-store-file-batch)
 
-
 ## Getting an API Key
 
 ⚠️ **Important**
@@ -104,6 +104,8 @@ SwiftOpenAI supports various providers that are OpenAI-compatible, including but
 - [Gemini](#gemini)
 - [Ollama](#ollama)
 - [Groq](#groq)
+- [OpenRouter](#openRouter)
+- [DeepSeek](#deepseek)
 - [AIProxy](#aiproxy)
 
 Check OpenAIServiceFactory for convenience initializers that you can use to provide custom URLs.
@@ -132,7 +134,6 @@ let service = OpenAIServiceFactory.service(apiKey: apiKey, organizationID: ogani
 ```
 
 That's all you need to begin accessing the full range of OpenAI endpoints.
-
 
 ### How to get the status code of network errors
 
@@ -3253,6 +3254,113 @@ let service = OpenAIServiceFactory.service(apiKey: apiKey, overrideBaseURL: "htt
 ```
 
 For Supported API's using Groq visit its [documentation](https://console.groq.com/docs/openai).
+
+## OpenRouter
+
+<img width="734" alt="Image" src="https://github.com/user-attachments/assets/2d658d07-0b41-4b5f-a094-ec7856f6fe98" />
+
+[OpenRouter](https://openrouter.ai/docs/quick-start) provides an OpenAI-compatible completion API to 314 models & providers that you can call directly, or using the OpenAI SDK. Additionally, some third-party SDKs are available.
+
+```swift
+
+// Creating the service
+
+let apiKey = "your_api_key"
+let servcie = OpenAIServiceFactory.service(apiKey: apiKey, 
+   overrideBaseURL: "https://openrouter.ai", 
+   proxyPath: "api",
+   extraHeaders: [
+      "HTTP-Referer": "<YOUR_SITE_URL>", // Optional. Site URL for rankings on openrouter.ai.
+         "X-Title": "<YOUR_SITE_NAME>"  // Optional. Site title for rankings on openrouter.ai.
+   ])
+
+// Making a request
+
+let prompt = "What is the Manhattan project?"
+let parameters = ChatCompletionParameters(messages: [.init(role: .user, content: .text(prompt))], model: .custom("deepseek/deepseek-r1:free"))
+let stream = service.startStreamedChat(parameters: parameters)
+```
+
+For more inofrmation about the `OpenRouter` api visit its [documentation](https://openrouter.ai/docs/quick-start).
+
+## DeepSeek
+
+![Image](https://github.com/user-attachments/assets/7733f011-691a-4de7-b715-c090e3647304)
+
+The [DeepSeek](https://api-docs.deepseek.com/) API uses an API format compatible with OpenAI. By modifying the configuration, you can use SwiftOpenAI to access the DeepSeek API.
+
+Creating the service
+
+```swift
+
+let apiKey = "your_api_key"
+let service = OpenAIServiceFactory.service(
+   apiKey: apiKey,
+   overrideBaseURL: "https://api.deepseek.com")
+```
+
+Non-Streaming Example
+
+```swift
+let prompt = "What is the Manhattan project?"
+let parameters = ChatCompletionParameters(
+    messages: [.init(role: .user, content: .text(prompt))],
+    model: .custom("deepseek-reasoner")
+)
+
+do {
+    let result = try await service.chat(parameters: parameters)
+    
+    // Access the response content
+    if let content = result.choices.first?.message.content {
+        print("Response: \(content)")
+    }
+    
+    // Access reasoning content if available
+    if let reasoning = result.choices.first?.message.reasoningContent {
+        print("Reasoning: \(reasoning)")
+    }
+} catch {
+    print("Error: \(error)")
+}
+```
+
+Streaming Example
+
+```swift
+let prompt = "What is the Manhattan project?"
+let parameters = ChatCompletionParameters(
+    messages: [.init(role: .user, content: .text(prompt))],
+    model: .custom("deepseek-reasoner")
+)
+
+// Start the stream
+do {
+    let stream = try await service.startStreamedChat(parameters: parameters)
+    for try await result in stream {
+        let content = result.choices.first?.delta.content ?? ""
+        self.message += content
+        
+        // Optional: Handle reasoning content if available
+        if let reasoning = result.choices.first?.delta.reasoningContent {
+            self.reasoningMessage += reasoning
+        }
+    }
+} catch APIError.responseUnsuccessful(let description, let statusCode) {
+    self.errorMessage = "Network error with status code: \(statusCode) and description: \(description)"
+} catch {
+    self.errorMessage = error.localizedDescription
+}
+```
+
+Notes
+
+- The DeepSeek API is compatible with OpenAI's format but uses different model names
+- Use .custom("deepseek-reasoner") to specify the DeepSeek model
+- The `reasoningContent` field is optional and specific to DeepSeek's API
+- Error handling follows the same pattern as standard OpenAI requests.
+
+For more inofrmation about the `DeepSeek` api visit its [documentation](https://api-docs.deepseek.com).
 
 ## Gemini
 

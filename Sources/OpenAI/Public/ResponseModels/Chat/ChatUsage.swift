@@ -7,13 +7,13 @@
 
 import Foundation
 
-public struct ChatUsage: Codable {
+public struct ChatUsage: Decodable {
   /// Number of tokens in the prompt
-  public let promptTokens: Int
+  public let promptTokens: Int?
   /// Number of tokens in the generated completion
-  public let completionTokens: Int
+  public let completionTokens: Int?
   /// Total number of tokens used in the request (prompt + completion)
-  public let totalTokens: Int
+  public let totalTokens: Int?
   /// Detailed breakdown of prompt tokens
   public let promptTokensDetails: PromptTokenDetails?
   /// Detailed breakdown of completion tokens
@@ -28,11 +28,11 @@ public struct ChatUsage: Codable {
   }
 }
 
-public struct PromptTokenDetails: Codable {
+public struct PromptTokenDetails: Decodable {
   /// Number of tokens retrieved from cache
-  public let cachedTokens: Int
+  public let cachedTokens: Int?
   /// Number of tokens used for audio processing
-  public let audioTokens: Int
+  public let audioTokens: Int?
 
   enum CodingKeys: String, CodingKey {
     case cachedTokens = "cached_tokens"
@@ -40,15 +40,15 @@ public struct PromptTokenDetails: Codable {
   }
 }
 
-public struct CompletionTokenDetails: Codable {
+public struct CompletionTokenDetails: Decodable {
   /// Number of tokens used for reasoning
-  public let reasoningTokens: Int
+  public let reasoningTokens: Int?
   /// Number of tokens used for audio processing
-  public let audioTokens: Int
+  public let audioTokens: Int?
   /// Number of tokens in accepted predictions
-  public let acceptedPredictionTokens: Int
+  public let acceptedPredictionTokens: Int?
   /// Number of tokens in rejected predictions
-  public let rejectedPredictionTokens: Int
+  public let rejectedPredictionTokens: Int?
 
   enum CodingKeys: String, CodingKey {
     case reasoningTokens = "reasoning_tokens"
