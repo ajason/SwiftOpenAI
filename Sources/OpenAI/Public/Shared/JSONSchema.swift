@@ -128,7 +128,7 @@ public class JSONSchema: Codable, Equatable {
     properties: [String: JSONSchema]? = nil,
     items: JSONSchema? = nil,
     required: [String]? = nil,
-    additionalProperties: Bool = false,
+    additionalProperties: Bool? = nil,
     enum: [String]? = nil,
     ref: String? = nil,
     defs: [String: JSONSchema]? = nil,
@@ -178,7 +178,7 @@ public class JSONSchema: Codable, Equatable {
       properties = nil
       items = nil
       required = nil
-      additionalProperties = false
+      additionalProperties = nil
       `enum` = nil
       defs = nil
       anyOf = nil
