@@ -144,10 +144,10 @@ public class OpenAIServiceFactory {
   public static func service(
     apiKey: String,
     overrideBaseURL: String,
+    configuration: URLSessionConfiguration = .default,
     proxyPath: String? = nil,
     overrideVersion: String? = nil,
     extraHeaders: [String: String]? = nil,
-    configuration: URLSessionConfiguration = .default,
     debugEnabled: Bool = false
   )
     -> OpenAIService
