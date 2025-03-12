@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ChatUsage: Decodable {
+public struct ChatUsage: Codable {
   /// Number of tokens in the prompt
   public let promptTokens: Int?
   /// Number of tokens in the generated completion
@@ -28,7 +28,7 @@ public struct ChatUsage: Decodable {
   }
 }
 
-public struct PromptTokenDetails: Decodable {
+public struct PromptTokenDetails: Codable {
   /// Number of tokens retrieved from cache
   public let cachedTokens: Int?
   /// Number of tokens used for audio processing
@@ -40,7 +40,7 @@ public struct PromptTokenDetails: Decodable {
   }
 }
 
-public struct CompletionTokenDetails: Decodable {
+public struct CompletionTokenDetails: Codable {
   /// Number of tokens used for reasoning
   public let reasoningTokens: Int?
   /// Number of tokens used for audio processing

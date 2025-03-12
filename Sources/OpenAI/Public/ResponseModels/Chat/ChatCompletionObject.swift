@@ -8,7 +8,7 @@
 import Foundation
 
 /// Represents a chat [completion](https://platform.openai.com/docs/api-reference/chat/object) response returned by model, based on the provided input.
-public struct ChatCompletionObject: Decodable {
+public struct ChatCompletionObject: Codable {
 
   /// A unique identifier for the chat completion.
   public let id: String?
@@ -28,7 +28,7 @@ public struct ChatCompletionObject: Decodable {
   /// Usage statistics for the completion request.
   public let usage: ChatUsage?
 
-  public struct ChatChoice: Decodable {
+  public struct ChatChoice: Codable {
 
     /// The reason the model stopped generating tokens. This will be stop if the model hit a natural stop point or a provided stop sequence, length if the maximum number of tokens specified in the request was reached, content_filter if content was omitted due to a flag from our content filters, tool_calls if the model called a tool, or function_call (deprecated) if the model called a function.
     public let finishReason: IntOrStringValue?
@@ -39,7 +39,7 @@ public struct ChatCompletionObject: Decodable {
     /// Log probability information for the choice.
     public let logprobs: LogProb?
 
-    public struct ChatMessage: Decodable {
+    public struct ChatMessage: Codable {
 
       /// The contents of the message.
       public let content: String?
@@ -60,11 +60,11 @@ public struct ChatCompletionObject: Decodable {
       public let audio: Audio?
 
       /// Provided by the Vision API.
-      public struct FinishDetails: Decodable {
+      public struct FinishDetails: Codable {
         let type: String?
       }
 
-      public struct Audio: Decodable {
+      public struct Audio: Codable {
         /// Unique identifier for this audio response.
         public let id: String?
         /// The Unix timestamp (in seconds) for when this audio response will no longer be accessible on the server for use in multi-turn conversations.
@@ -94,12 +94,12 @@ public struct ChatCompletionObject: Decodable {
       }
     }
 
-    public struct LogProb: Decodable {
+    public struct LogProb: Codable {
       /// A list of message content tokens with log probability information.
       let content: [TokenDetail]?
     }
 
-    public struct TokenDetail: Decodable {
+    public struct TokenDetail: Codable {
       /// The token.
       let token: String?
       /// The log probability of this token.
@@ -114,7 +114,7 @@ public struct ChatCompletionObject: Decodable {
         case topLogprobs = "top_logprobs"
       }
 
-      struct TopLogProb: Decodable {
+      struct TopLogProb: Codable {
         /// The token.
         let token: String?
         /// The log probability of this token.
